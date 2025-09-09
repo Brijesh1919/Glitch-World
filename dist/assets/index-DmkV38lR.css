@@ -1,0 +1,1 @@
+html,body,#root{height:100%}body{margin:0;font-family:"Press Start 2P",monospace;background:#0b0b0f;color:#fff}.app-root{display:flex;flex-direction:column;align-items:center;gap:12px;padding:12px}.title{margin:0;font-size:14px}.game-canvas{width:800px;height:600px;border:6px solid #111;background:#000}.hud{position:relative;z-index:10}
