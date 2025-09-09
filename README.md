@@ -1,4 +1,4 @@
-# Die Again: Glitch World
+# Glitch World Only
 
 This repo is an early scaffold for a 2D glitch-themed platformer. The project uses React + a simple HTML5 canvas renderer (level logic lives in `src/levels/_LevelBase.jsx`) so you can prototype mechanics fast.
 

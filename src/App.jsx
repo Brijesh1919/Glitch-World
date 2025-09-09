@@ -10,7 +10,7 @@ export default function App() {
         <Dashboard onStart={()=>setStarted(true)} />
       ) : (
         <>
-          <h1 className="title">Die Again: Glitch World</h1>
+          <h1 className="title">GLITCH WORLD</h1>
           <GameManager />
         </>
       )}

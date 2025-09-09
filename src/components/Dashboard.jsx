@@ -4,8 +4,8 @@ export default function Dashboard({onStart}){
   return (
     <div className="dashboard-root">
       <div className="title-wrap">
-        <div className="pixel-title">D I E&nbsp;&nbsp; A G A I N</div>
-        <div className="pixel-sub">GLITCH WORLD</div>
+        <div className="pixel-title">GLITCH WORLD</div>
+        <div className="pixel-sub">ONLY</div>
       </div>
 
       <div className="promo">
