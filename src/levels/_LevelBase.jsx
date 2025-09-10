@@ -131,10 +131,12 @@ export default function LevelBase({respawnPoint,onRespawnChange,onDeath,onNextLe
       }
 
         // trap collision (spikeX)
-        const spikeX = behaviorConfig.spikeX || 400
-        if(s.player.x > spikeX && s.player.x < spikeX + 40 && ((s.gravity>0 && s.player.y >= 480) || (s.gravity<0 && s.player.y <= 120))){
-          onDeath && onDeath({type:'spike'})
-          s.player.x = respawnPoint.x; s.player.y = respawnPoint.y
+        const spikes = behaviorConfig.spikes || (behaviorConfig.spikeX ? [{x: behaviorConfig.spikeX}] : []);
+        for (const spike of spikes) {
+          if(s.player.x > spike.x && s.player.x < spike.x + 40 && ((s.gravity>0 && s.player.y >= 480) || (s.gravity<0 && s.player.y <= 120))){
+            onDeath && onDeath({type:'spike'})
+            s.player.x = respawnPoint.x; s.player.y = respawnPoint.y
+          }
         }
 
         // simple platforms handling (top-only collision)
@@ -249,8 +251,10 @@ export default function LevelBase({respawnPoint,onRespawnChange,onDeath,onNextLe
 
   // draw spike
       ctx.fillStyle = '#f44'
-      if(s.gravity > 0){ ctx.beginPath(); ctx.moveTo(spikeX,560); ctx.lineTo(spikeX+20,520); ctx.lineTo(spikeX+40,560); ctx.closePath(); ctx.fill() }
-      else { ctx.beginPath(); ctx.moveTo(spikeX,0); ctx.lineTo(spikeX+20,40); ctx.lineTo(spikeX+40,0); ctx.closePath(); ctx.fill() }
+      for (const spike of spikes) {
+        if(s.gravity > 0){ ctx.beginPath(); ctx.moveTo(spike.x,560); ctx.lineTo(spike.x+20,520); ctx.lineTo(spike.x+40,560); ctx.closePath(); ctx.fill() }
+        else { ctx.beginPath(); ctx.moveTo(spike.x,0); ctx.lineTo(spike.x+20,40); ctx.lineTo(spike.x+40,0); ctx.closePath(); ctx.fill() }
+      }
 
       // draw platforms
       if(Array.isArray(behaviorConfig.platforms)){

@@ -12,6 +12,21 @@ import Level9 from '../levels/Level9'
 import Level10 from '../levels/Level10'
 import HUD from './HUD'
 import FakeErrorModal from './FakeErrorModal'
+import LevelBase from '../levels/_LevelBase'
+import { generateLevelConfig } from '../utils/levelGenerator'
+
+const StaticLevels = {
+  1: Level1,
+  2: Level2,
+  3: Level3,
+  4: Level4,
+  5: Level5,
+  6: Level6,
+  7: Level7,
+  8: Level8,
+  9: Level9,
+  10: Level10,
+}
 
 export default function GameManager(){
   const [currentLevel, setCurrentLevel] = useState(1)
@@ -31,7 +46,7 @@ export default function GameManager(){
     setTrollMessage('Loading more bugs...')
     setTimeout(()=>{
       setTrollMessage(null)
-      setCurrentLevel(c => Math.min(99, c+1))
+      setCurrentLevel(c => c + 1)
       // reset respawn for new level (can be customized per-level)
       setRespawnPoint({x:100,y:520})
       setIsTransitioning(false)
@@ -60,114 +75,40 @@ export default function GameManager(){
   return ()=>{}
   },[])
 
+  const renderCurrentLevel = () => {
+    const commonProps = {
+      key: currentLevel,
+      respawnPoint: respawnPoint,
+      onRespawnChange: setRespawnPoint,
+      onDeath: handleDeath,
+      onNextLevel: goToNextLevel,
+      onTrollMessage: showTroll,
+    };
+
+    if (currentLevel <= 10) {
+      const levels = [Level1, Level2, Level3, Level4, Level5, Level6, Level7, Level8, Level9, Level10];
+      const LevelComponent = levels[currentLevel - 1];
+      return <LevelComponent {...commonProps} />;
+    } else {
+      return (
+        <LevelBase
+          {...commonProps}
+          levelNumber={currentLevel}
+          title={`Level ${currentLevel} - The Glitch Abyss`}
+          behaviorConfig={generateLevelConfig(currentLevel)}
+        />
+      );
+    }
+  };
+
   return (
     <div>
-  <div className="game-canvas">
-        {currentLevel === 1 && (
-          <Level1
-            key={1}
-            respawnPoint={respawnPoint}
-            onRespawnChange={setRespawnPoint}
-            onDeath={handleDeath}
-            onNextLevel={goToNextLevel}
-            onTrollMessage={showTroll}
-          />
-        )}
-        {currentLevel === 2 && (
-          <Level2
-            key={2}
-            respawnPoint={respawnPoint}
-            onRespawnChange={setRespawnPoint}
-            onDeath={handleDeath}
-            onNextLevel={goToNextLevel}
-            onTrollMessage={showTroll}
-          />
-        )}
-        {currentLevel === 3 && (
-          <Level3
-            key={3}
-            respawnPoint={respawnPoint}
-            onRespawnChange={setRespawnPoint}
-            onDeath={handleDeath}
-            onNextLevel={goToNextLevel}
-            onTrollMessage={showTroll}
-          />
-        )}
-        {currentLevel === 4 && (
-          <Level4
-            key={4}
-            respawnPoint={respawnPoint}
-            onRespawnChange={setRespawnPoint}
-            onDeath={handleDeath}
-            onNextLevel={goToNextLevel}
-            onTrollMessage={showTroll}
-          />
-        )}
-        {currentLevel === 5 && (
-          <Level5
-            key={5}
-            respawnPoint={respawnPoint}
-            onRespawnChange={setRespawnPoint}
-            onDeath={handleDeath}
-            onNextLevel={goToNextLevel}
-            onTrollMessage={showTroll}
-          />
-        )}
-        {currentLevel === 6 && (
-          <Level6
-            key={6}
-            respawnPoint={respawnPoint}
-            onRespawnChange={setRespawnPoint}
-            onDeath={handleDeath}
-            onNextLevel={goToNextLevel}
-            onTrollMessage={showTroll}
-          />
-        )}
-        {currentLevel === 7 && (
-          <Level7
-            key={7}
-            respawnPoint={respawnPoint}
-            onRespawnChange={setRespawnPoint}
-            onDeath={handleDeath}
-            onNextLevel={goToNextLevel}
-            onTrollMessage={showTroll}
-          />
-        )}
-        {currentLevel === 8 && (
-          <Level8
-            key={8}
-            respawnPoint={respawnPoint}
-            onRespawnChange={setRespawnPoint}
-            onDeath={handleDeath}
-            onNextLevel={goToNextLevel}
-            onTrollMessage={showTroll}
-          />
-        )}
-        {currentLevel === 9 && (
-          <Level9
-            key={9}
-            respawnPoint={respawnPoint}
-            onRespawnChange={setRespawnPoint}
-            onDeath={handleDeath}
-            onNextLevel={goToNextLevel}
-            onTrollMessage={showTroll}
-          />
-        )}
-        {currentLevel === 10 && (
-          <Level10
-            key={10}
-            respawnPoint={respawnPoint}
-            onRespawnChange={setRespawnPoint}
-            onDeath={handleDeath}
-            onNextLevel={goToNextLevel}
-            onTrollMessage={showTroll}
-          />
-        )}
-        {/* Future levels: add more components and cases */}
+      <div className="game-canvas">
+        {renderCurrentLevel()}
       </div>
 
-  {/* small DOM overlay showing current level for debugging */}
-  <div style={{position:'absolute',right:20,top:12,color:'#9f9',fontFamily:'monospace',zIndex:1000}}>{`Level ${currentLevel}`}</div>
+      {/* small DOM overlay showing current level for debugging */}
+      <div style={{position:'absolute',right:20,top:12,color:'#9f9',fontFamily:'monospace',zIndex:1000}}>{`Level ${currentLevel}`}</div>
 
       <HUD />
       {showFakeError && <FakeErrorModal />}

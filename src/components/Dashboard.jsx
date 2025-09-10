@@ -14,7 +14,7 @@ export default function Dashboard({onStart}){
       </div>
 
       <div className="dashboard-actions">
-        <button className="btn-play" onClick={() => window.open('https://uat.prospectly.com/', '_self')}>PLAY</button>
+        <button className="btn-play" onClick={onStart}>PLAY</button>
       </div>
 
       <div className="footer-note">Press arrow keys to move, Space to jump</div>

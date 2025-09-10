@@ -10,8 +10,8 @@ export default function App() {
         <Dashboard onStart={()=>setStarted(true)} />
       ) : (
         <>
-          <h1 className="title">Your website is Hacked</h1>
-          {/* <GameManager /> */}
+          <h1 className="title">GLITCH WORLD</h1>
+          <GameManager />
         </>
       )}
     </div>
